@@ -18,7 +18,11 @@ class TableViewController: ContainerViewController {
             locations = locationsData.studentLocations
         }
     }
-    var locations: [StudentLocation] = []
+    var locations: [StudentLocation] = [] {
+        didSet {
+            tableView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

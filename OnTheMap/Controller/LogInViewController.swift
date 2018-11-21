@@ -17,6 +17,24 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        setupUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        subscribeToNotificationsObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        unsubscribeFromNotificationsObserver()
+    }
+    
+    private func setupUI() {
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
     }
     
     @IBAction func signUpTapped(_ sender: UIButton) {
@@ -36,14 +54,5 @@ class LogInViewController: UIViewController {
                 self.performSegue(withIdentifier: "Login", sender: nil)
             }
         }
-    }
-
-}
-
-extension UIViewController {
-    func showAlert(title: String, message: String) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-        present(alertController, animated: true, completion: nil)
     }
 }

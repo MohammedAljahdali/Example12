@@ -20,6 +20,18 @@ class AddLocationViewController: UIViewController {
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        subscribeToNotificationsObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        unsubscribeFromNotificationsObserver()
+    }
+    
     @IBAction func findLocationTapped(_ sender: UIButton) {
         guard let location = locationTextField.text,
               let mediaLink = mediaLinkTextField.text,
@@ -47,6 +59,7 @@ class AddLocationViewController: UIViewController {
         geocoder.geocodeAddressString(location.mapString) { (placeMarks, _) in
             ai.stopAnimating()
             guard let marks = placeMarks else {
+                self.showAlert(title: "Error", message: "Couldn't geocode you're location. Please try again.")
                 return
             }
             
@@ -65,6 +78,9 @@ class AddLocationViewController: UIViewController {
     
     private func setupUI() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(self.cancelTapped(_:)))
+        
+        locationTextField.delegate = self
+        mediaLinkTextField.delegate = self
     }
     
     @objc private func cancelTapped(_ sender: Any) {
@@ -72,3 +88,5 @@ class AddLocationViewController: UIViewController {
     }
 
 }
+
+

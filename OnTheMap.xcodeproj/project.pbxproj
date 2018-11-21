@@ -23,7 +23,7 @@
 		D62EDC6D21A348D200BCFCE2 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62EDC5C21A348D200BCFCE2 /* API.swift */; };
 		D62EDC6E21A348D200BCFCE2 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62EDC5D21A348D200BCFCE2 /* String+Date.swift */; };
 		D62EDC7221A348E100BCFCE2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D62EDC7121A348E100BCFCE2 /* Main.storyboard */; };
-		D62EDC7A21A4033F00BCFCE2 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62EDC7921A4033F00BCFCE2 /* UIViewController.swift */; };
+		D62EDC7A21A4033F00BCFCE2 /* UIViewController+UIResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62EDC7921A4033F00BCFCE2 /* UIViewController+UIResponder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,7 +45,7 @@
 		D62EDC5C21A348D200BCFCE2 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		D62EDC5D21A348D200BCFCE2 /* String+Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		D62EDC7121A348E100BCFCE2 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		D62EDC7921A4033F00BCFCE2 /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		D62EDC7921A4033F00BCFCE2 /* UIViewController+UIResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+UIResponder.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				D62EDC5D21A348D200BCFCE2 /* String+Date.swift */,
-				D62EDC7921A4033F00BCFCE2 /* UIViewController.swift */,
+				D62EDC7921A4033F00BCFCE2 /* UIViewController+UIResponder.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -211,7 +211,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D62EDC7A21A4033F00BCFCE2 /* UIViewController.swift in Sources */,
+				D62EDC7A21A4033F00BCFCE2 /* UIViewController+UIResponder.swift in Sources */,
 				D62EDC6421A348D200BCFCE2 /* StudentLocation.swift in Sources */,
 				D62EDC6221A348D200BCFCE2 /* APIConstants.swift in Sources */,
 				D62EDC6E21A348D200BCFCE2 /* String+Date.swift in Sources */,

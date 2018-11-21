@@ -50,6 +50,8 @@ class ContainerViewController: UIViewController {
             }
         }))
         alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func loadStudentLocations() {

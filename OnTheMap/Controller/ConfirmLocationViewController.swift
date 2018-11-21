@@ -48,6 +48,9 @@ class ConfirmLocationViewController: UIViewController {
         annotation.title = location.mapString
         
         mapView.addAnnotation(annotation)
+        
+        let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        mapView.setRegion(region, animated: true)
     }
 
 }
