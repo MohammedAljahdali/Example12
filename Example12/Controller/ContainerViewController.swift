@@ -39,19 +39,8 @@ class ContainerViewController: UIViewController {
     }
     
     @objc private func logoutTapped(_ sender: Any) {
-        let alertController = UIAlertController(title: "Logout", message: "Are you sure you wnat to logout?", preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "Logout", style: .default, handler: { (_) in
-            API.deleteSession { (err) in
-                guard err == nil else {
-                    self.showAlert(title: "Error", message: err!)
-                    return
-                }
-                self.dismiss(animated: true, completion: nil)
-            }
-        }))
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .destructive, handler: nil))
-        
-        present(alertController, animated: true, completion: nil)
+        // Here you should call corresponding API for deleting the session, and you should go back to Login screen on success
+        print("Logout not implemented yet")
     }
     
     private func loadStudentLocations() {

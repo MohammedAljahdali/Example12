@@ -55,34 +55,6 @@ class API {
         task.resume()
     }
     
-    static func deleteSession(completion: @escaping (String?)->Void) {
-        guard let url = URL(string: APIConstants.SESSION) else {
-            completion("Supplied url is invalid")
-            return
-        }
-        var request = URLRequest(url: url)
-        var xsrfCookie: HTTPCookie? = nil
-        let sharedCookieStorage = HTTPCookieStorage.shared
-        for cookie in sharedCookieStorage.cookies! {
-            if cookie.name == "XSRF-TOKEN" { xsrfCookie = cookie }
-        }
-        if let xsrfCookie = xsrfCookie {
-            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
-        }
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-            if error != nil { // Handle error…
-                return
-            }
-            let newData = data?.subdata(in: 5..<data!.count) /* subset response data! */
-            print(String(data: newData!, encoding: .utf8)!)
-            DispatchQueue.main.async {
-                completion(nil)
-            }
-        }
-        task.resume()
-    }
-    
     static func getPublicUserName(completion: @escaping (String?, String?)->Void) {
         guard let userId = self.accountId, let url = URL(string: "\(APIConstants.PUBLIC_USER)/\(userId)") else {
             completion(nil, nil)
@@ -165,12 +137,13 @@ class API {
             request.addValue(APIConstants.HeaderValues.PARSE_APP_ID, forHTTPHeaderField: APIConstants.HeaderKeys.PARSE_APP_ID)
             request.addValue(APIConstants.HeaderValues.PARSE_API_KEY, forHTTPHeaderField: APIConstants.HeaderKeys.PARSE_API_KEY)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = "{\"uniqueKey\": \"\(accountId)\", \"firstName\": \"\(location.firstName ?? "John")\", \"lastName\": \"\(location.lastName ?? "Doe")\",\"mapString\": \"\(location.mapString)\", \"mediaURL\": \"\(location.mediaURL)\",\"latitude\": \(location.latitude), \"longitude\": \(location.longitude)}".data(using: .utf8)
+            request.httpBody = "{\"uniqueKey\": \"\(accountId)\", \"firstName\": \"\(location.firstName ?? "John")\", \"lastName\": \"\(location.lastName ?? "Doe")\",\"mapString\": \"\(location.mapString!)\", \"mediaURL\": \"\(location.mediaURL!)\",\"latitude\": \(location.latitude!), \"longitude\": \(location.longitude!)}".data(using: .utf8)
             let session = URLSession.shared
             let task = session.dataTask(with: request) { data, response, error in
                 var errString: String?
+                print(String(data: data!, encoding: .utf8)!)
                 if let statusCode = (response as? HTTPURLResponse)?.statusCode { //Request sent succesfully
-                    if statusCode >= 400 { //Response is ok
+                    if statusCode >= 400 { //Response is not ok
                         errString = "Couldn't post your location"
                     }
                 } else { //Request failed to sent
@@ -184,5 +157,7 @@ class API {
         }
         
     }
+    
+    
     
 }

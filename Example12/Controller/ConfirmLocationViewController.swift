@@ -24,7 +24,7 @@ class ConfirmLocationViewController: UIViewController {
     
     @IBAction func finishTapped(_ sender: UIButton) {
         
-        API.Parser.postLocation(self.location!) { (err) in
+        API.Parser.postLocation(self.location!) { err  in
             guard err == nil else {
                 self.showAlert(title: "Error", message: err!)
                 return
@@ -38,17 +38,20 @@ class ConfirmLocationViewController: UIViewController {
     private func setupMap() {
         guard let location = location else { return }
         
-        let lat = CLLocationDegrees(location.latitude)
-        let long = CLLocationDegrees(location.longitude)
+        let lat = CLLocationDegrees(location.latitude!)
+        let long = CLLocationDegrees(location.longitude!)
         
         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = location.mapString
+        // TODO: Create a new MKPointAnnotation
         
-        mapView.addAnnotation(annotation)
+        // TODO: Set annotation's `coordinate` and `title` properties
         
+        
+        // TODO: Add annotation to the `mapView`
+        
+        
+        // Setting current mapView's region to be centered at the pin's coordinate
         let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
         mapView.setRegion(region, animated: true)
     }

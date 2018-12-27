@@ -56,7 +56,7 @@ extension TableViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let studentLocation = locations[indexPath.row]
-        guard let url = URL(string: studentLocation.mediaURL), UIApplication.shared.canOpenURL(url) else {
+        guard let url = URL(string: studentLocation.mediaURL ?? ""), UIApplication.shared.canOpenURL(url) else {
             self.showAlert(title: "Error", message: "Invalid url")
             return
         }

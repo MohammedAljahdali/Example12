@@ -40,34 +40,24 @@ class AddLocationViewController: UIViewController {
             return
         }
         
-        let studentLocation = StudentLocation.init(createdAt: "",
-                                                   firstName: nil,
-                                                   lastName: nil,
-                                                   latitude: 0,
-                                                   longitude: 0,
-                                                   mapString: location,
-                                                   mediaURL: mediaLink,
-                                                   objectId: "",
-                                                   uniqueKey: "",
-                                                   updatedAt: "")
-        pass(studentLocation)
+        var studentLocation = StudentLocation(mapString: location, mediaURL: mediaLink)
+        geocodeCoordinates(&studentLocation)
     }
     
-    private func pass(_ location: StudentLocation) {
-        let geocoder = CLGeocoder()
+    private func geocodeCoordinates(_ location: inout StudentLocation) {
+        
         let ai = self.startAnActivityIndicator()
-        geocoder.geocodeAddressString(location.mapString) { (placeMarks, _) in
-            ai.stopAnimating()
-            guard let marks = placeMarks else {
-                self.showAlert(title: "Error", message: "Couldn't geocode you're location. Please try again.")
-                return
-            }
-            
-            var studentLocation = location
-            studentLocation.longitude = Float((marks.first!.location?.coordinate.longitude)!)
-            studentLocation.latitude = Float((marks.first!.location?.coordinate.latitude)!)
-            self.performSegue(withIdentifier: "mapSegue", sender: studentLocation)
-        }
+        // TODO: Use CLGeocoder's function named `geocodeAddressString` to convert location's `mapString` to coordinates
+        
+        // TODO: Call `ai.stopAnimating()` first thing in the completionHandler
+        
+        // TODO: Extract the first location from Place Marks array
+        
+        // TODO: Save latitude and longitude in `location` properties `latitude` and `longitude`
+        
+        
+        // TODO: Call performSegue and pass `location` as the sender
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

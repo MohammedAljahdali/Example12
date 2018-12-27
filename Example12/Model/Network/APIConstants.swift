@@ -28,8 +28,8 @@ struct APIConstants {
     }
     
     private static let MAIN = "https://parse.udacity.com"
-    static let SESSION = "https://www.udacity.com/api/session"
-    static let PUBLIC_USER = "https://www.udacity.com/api/users"
+    static let SESSION = "https://onthemap-api.udacity.com/v1/session"
+    static let PUBLIC_USER = "https://onthemap-api.udacity.com/v1/users/"
     static let STUDENT_LOCATION = MAIN + "/parse/classes/StudentLocation"
     
 }

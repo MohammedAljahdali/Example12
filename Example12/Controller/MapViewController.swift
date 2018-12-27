@@ -9,18 +9,6 @@
 import UIKit
 import MapKit
 
-/**
-* This view controller demonstrates the objects involved in displaying pins on a map.
-*
-* The map is a MKMapView.
-* The pins are represented by MKPointAnnotation instances.
-*
-* The view controller conforms to the MKMapViewDelegate so that it can receive a method 
-* invocation when a pin annotation is tapped. It accomplishes this using two delegate 
-* methods: one to put a small "info" button on the right side of each pin, and one to
-* respond when the "info" button is tapped.
-*/
-
 class MapViewController: ContainerViewController, MKMapViewDelegate {
     
     // The map. See the setup in the Storyboard file. Note particularly that the view controller
@@ -52,8 +40,8 @@ class MapViewController: ContainerViewController, MKMapViewDelegate {
             
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.
-            let lat = CLLocationDegrees(location.latitude)
-            let long = CLLocationDegrees(location.longitude)
+            let lat = CLLocationDegrees(location.latitude!)
+            let long = CLLocationDegrees(location.longitude!)
             
             // The lat and long are used to create a CLLocationCoordinates2D instance.
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
@@ -73,7 +61,8 @@ class MapViewController: ContainerViewController, MKMapViewDelegate {
         }
         
         // When the array is complete, we add the annotations to the map.
-        self.mapView.addAnnotations(annotations)
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.addAnnotations(annotations)
     }
     
     // MARK: - MKMapViewDelegate
@@ -112,11 +101,4 @@ class MapViewController: ContainerViewController, MKMapViewDelegate {
             }
         }
     }
-//    func mapView(mapView: MKMapView, annotationView: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-//        
-//        if control == annotationView.rightCalloutAccessoryView {
-//            let app = UIApplication.sharedApplication()
-//            app.openURL(NSURL(string: annotationView.annotation.subtitle))
-//        }
-//    } 
 }
