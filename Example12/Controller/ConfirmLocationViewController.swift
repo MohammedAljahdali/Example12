@@ -45,7 +45,7 @@ class ConfirmLocationViewController: UIViewController {
         
         // TODO: Create a new MKPointAnnotation
         
-        // TODO: Set annotation's `coordinate` and `title` properties
+        // TODO: Set annotation's `coordinate` and `title` properties to the correct coordinate and `location.mapString` respectively
         
         
         // TODO: Add annotation to the `mapView`
