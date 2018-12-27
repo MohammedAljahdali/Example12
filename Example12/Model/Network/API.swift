@@ -10,7 +10,7 @@ import Foundation
 
 class API {
     
-    private static var accountId: String?
+    private static var userInfo = UserInfo()
     private static var sessionId: String?
     
     static func postSession(username: String, password: String, completion: @escaping (String?)->Void) {
@@ -28,7 +28,7 @@ class API {
         let task = session.dataTask(with: request) { data, response, error in
             var errString: String?
             if let statusCode = (response as? HTTPURLResponse)?.statusCode { //Request sent succesfully
-                if statusCode < 400 { //Response is ok
+                if statusCode >= 200 && statusCode < 300 { //Response is ok
                     
                     let newData = data?.subdata(in: 5..<data!.count)
                     if let json = try? JSONSerialization.jsonObject(with: newData!, options: []),
@@ -36,8 +36,12 @@ class API {
                         let sessionDict = dict["session"] as? [String: Any],
                         let accountDict = dict["account"] as? [String: Any]  {
                         
+                        self.userInfo.key = accountDict["key"] as? String // This is used in getUserInfo(completion:)
                         self.sessionId = sessionDict["id"] as? String
-                        self.accountId = accountDict["key"] as? String
+                        
+                        self.getUserInfo(completion: { err in
+                            
+                        })
                     } else { //Err in parsing data
                         errString = "Couldn't parse response"
                     }
@@ -55,35 +59,10 @@ class API {
         task.resume()
     }
     
-    static func getPublicUserName(completion: @escaping (String?, String?)->Void) {
-        guard let userId = self.accountId, let url = URL(string: "\(APIConstants.PUBLIC_USER)/\(userId)") else {
-            completion(nil, nil)
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.addValue(self.sessionId!, forHTTPHeaderField: "session_id")
-        let session = URLSession.shared
-        let task = session.dataTask(with: request) { data, response, error in
-            var firstName: String?, lastName: String?, nickname: String = ""
-            if let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode < 400 { //Request sent succesfully
-                let newData = data?.subdata(in: 5..<data!.count)
-                if let json = try? JSONSerialization.jsonObject(with: newData!, options: [.allowFragments]),
-                    let dict = json as? [String:Any],
-                    let user = dict["user"] as? [String:Any],
-                    let guardDict = user["guard"] as? [String:Any] {
-                    nickname = user["nickname"] as? String ?? ""
-                    firstName = guardDict["first_name"] as? String ?? nickname
-                    lastName = user["last_name"] as? String ?? nickname
-                }
-            }
-            
-            DispatchQueue.main.async {
-                completion(firstName, lastName)
-            }
-            
-        }
-        task.resume()
+    static func getUserInfo(completion: @escaping (Error?)->Void) {
+        // This function is called right after the user logs in successfully
+        // It uses the user's key to retreive the rest of the information (firstName and lastName) and saves it to be used later on posting a location
+        // Hint: print out the retreived data in order to find out how you'll traverse the JSON object to get the firstName and lastName
     }
     
     class Parser {
@@ -102,7 +81,7 @@ class API {
             let task = session.dataTask(with: request) { data, response, error in
                 var studentLocations: [StudentLocation] = []
                 if let statusCode = (response as? HTTPURLResponse)?.statusCode { //Request sent succesfully
-                    if statusCode < 400 { //Response is ok
+                    if statusCode >= 200 && statusCode < 300 { //Response is ok
                         
                         if let json = try? JSONSerialization.jsonObject(with: data!, options: []),
                             let dict = json as? [String:Any],
@@ -127,33 +106,9 @@ class API {
         }
         
         static func postLocation(_ location: StudentLocation, completion: @escaping (String?)->Void) {
-            guard let accountId = accountId, let url = URL(string: "\(APIConstants.STUDENT_LOCATION)") else {
-                completion("Invilid url")
-                return
-            }
-            
-            var request = URLRequest(url: url)
-            request.httpMethod = HTTPMethod.post.rawValue
-            request.addValue(APIConstants.HeaderValues.PARSE_APP_ID, forHTTPHeaderField: APIConstants.HeaderKeys.PARSE_APP_ID)
-            request.addValue(APIConstants.HeaderValues.PARSE_API_KEY, forHTTPHeaderField: APIConstants.HeaderKeys.PARSE_API_KEY)
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            request.httpBody = "{\"uniqueKey\": \"\(accountId)\", \"firstName\": \"\(location.firstName ?? "John")\", \"lastName\": \"\(location.lastName ?? "Doe")\",\"mapString\": \"\(location.mapString!)\", \"mediaURL\": \"\(location.mediaURL!)\",\"latitude\": \(location.latitude!), \"longitude\": \(location.longitude!)}".data(using: .utf8)
-            let session = URLSession.shared
-            let task = session.dataTask(with: request) { data, response, error in
-                var errString: String?
-                print(String(data: data!, encoding: .utf8)!)
-                if let statusCode = (response as? HTTPURLResponse)?.statusCode { //Request sent succesfully
-                    if statusCode >= 400 { //Response is not ok
-                        errString = "Couldn't post your location"
-                    }
-                } else { //Request failed to sent
-                    errString = "Check your internet connection"
-                }
-                DispatchQueue.main.async {
-                    completion(errString)
-                }
-            }
-            task.resume()
+            // Here you'll implement the logic for posting a student location
+            // Please refere to the roadmap file and classroom for more details
+            // Note that you'll need to send (uniqueKey, firstName, lastName) along with the post request. These information should be obtained upon logging in and they should be saved somewhere (Ex. AppDelegate or in this class)
         }
         
     }

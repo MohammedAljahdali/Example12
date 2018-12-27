@@ -39,7 +39,7 @@ class ContainerViewController: UIViewController {
     }
     
     @objc private func logoutTapped(_ sender: Any) {
-        // Here you should call corresponding API for deleting the session, and you should go back to Login screen on success
+        // Here you should call the corresponding API for deleting the session, and you should go back to Login screen on success
         print("Logout not implemented yet")
     }
     
