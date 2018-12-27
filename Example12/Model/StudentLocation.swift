@@ -12,8 +12,8 @@ struct StudentLocation: Codable {
     var createdAt: String?
     var firstName: String?
     var lastName: String?
-    var latitude: Float?
-    var longitude: Float?
+    var latitude: Double?
+    var longitude: Double?
     var mapString: String?
     var mediaURL: String?
     var objectId: String?
