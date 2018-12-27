@@ -44,12 +44,12 @@ class ConfirmLocationViewController: UIViewController {
         let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
         
         // TODO: Create a new MKPointAnnotation
-        
-        // TODO: Set annotation's `coordinate` and `title` properties
-        
-        
+        let annotation = MKPointAnnotation()
+        // TODO: Set annotation's `coordinate` and `title` properties to the correct coordinate and `location.mapString` respectively
+        annotation.coordinate = coordinate
+        annotation.title = location.mapString
         // TODO: Add annotation to the `mapView`
-        
+        mapView.addAnnotation(annotation)
         
         // Setting current mapView's region to be centered at the pin's coordinate
         let region = MKCoordinateRegion(center: coordinate, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
