@@ -40,23 +40,27 @@ class AddLocationViewController: UIViewController {
             return
         }
         
-        var studentLocation = StudentLocation(mapString: location, mediaURL: mediaLink)
-        geocodeCoordinates(&studentLocation)
+        let studentLocation = StudentLocation(mapString: location, mediaURL: mediaLink)
+        geocodeCoordinates(studentLocation)
     }
     
-    private func geocodeCoordinates(_ location: inout StudentLocation) {
+    private func geocodeCoordinates(_ studentLocation: StudentLocation) {
         
         let ai = self.startAnActivityIndicator()
         // TODO: Use CLGeocoder's function named `geocodeAddressString` to convert location's `mapString` to coordinates
+        CLGeocoder().geocodeAddressString(studentLocation.mapString!) { (placeMarks, err) in
+            // TODO: Call `ai.stopAnimating()` first thing in the completionHandler
+            ai.stopAnimating()
+            // TODO: Extract the first location from Place Marks array
+            guard let firstLocation = placeMarks?.first?.location else { return }
+            // TODO: Copy studentLocation into a new object and save latitude and longitude in the new object's properties `latitude` and `longitude`
+            var location = studentLocation
+            location.latitude = firstLocation.coordinate.latitude
+            location.longitude = firstLocation.coordinate.longitude
+            // TODO: Call performSegue using `mapSegue` identifier and pass `location` as the sender
+            self.performSegue(withIdentifier: "mapSegue", sender: location)
+        }
         
-        // TODO: Call `ai.stopAnimating()` first thing in the completionHandler
-        
-        // TODO: Extract the first location from Place Marks array
-        
-        // TODO: Save latitude and longitude in `location` properties `latitude` and `longitude`
-        
-        
-        // TODO: Call performSegue and pass `location` as the sender
         
     }
     
