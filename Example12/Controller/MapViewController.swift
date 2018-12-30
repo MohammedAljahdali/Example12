@@ -40,8 +40,9 @@ class MapViewController: ContainerViewController, MKMapViewDelegate {
             
             // Notice that the float values are being used to create CLLocationDegree values.
             // This is a version of the Double type.
-            let lat = CLLocationDegrees(location.latitude!)
-            let long = CLLocationDegrees(location.longitude!)
+            guard let latitude = location.latitude, let longitude = location.longitude else { continue }
+            let lat = CLLocationDegrees(latitude)
+            let long = CLLocationDegrees(longitude)
             
             // The lat and long are used to create a CLLocationCoordinates2D instance.
             let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
