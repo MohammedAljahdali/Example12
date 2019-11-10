@@ -48,7 +48,14 @@ class AddLocationViewController: UIViewController {
         
         let ai = self.startAnActivityIndicator()
         // TODO: Use CLGeocoder's function named `geocodeAddressString` to convert location's `mapString` to coordinates
-        
+        CLGeocoder().geocodeAddressString(studentLocation.mapString!) { (placeMark, error) in
+            ai.stopAnimating()
+            guard let location = placeMark?[0] else {return}
+            var student = studentLocation
+            student.latitude = location.location?.coordinate.latitude
+            student.longitude = location.location?.coordinate.longitude
+            self.performSegue(withIdentifier: "mapSegue", sender: student)
+        }
             // TODO: Call `ai.stopAnimating()` first thing in the completionHandler
             
             // TODO: Extract the first location from Place Marks array
